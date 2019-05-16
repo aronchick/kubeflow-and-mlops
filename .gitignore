@@ -1,2 +1,14 @@
-# ignore data
+# standard things
+.ipynb_checkpoints/
+__pycache__
+
+# Environment Variables
+*.env
+*.cfg
+*-creds.yaml
+
+# models and data
 data/
+model/
+*.tar.gz
+*.h5
