@@ -1,0 +1,4 @@
+Pillow
+pathlib
+requests
+azureml-sdk
