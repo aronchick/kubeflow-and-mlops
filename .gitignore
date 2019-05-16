@@ -1,4 +1,5 @@
 # standard things
+.vscode
 .ipynb_checkpoints/
 __pycache__
 

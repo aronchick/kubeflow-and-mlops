@@ -87,10 +87,10 @@ def run(data_path, image_size=160, epochs=10, batch_size=32, learning_rate=0.000
 
     # model
     info('Creating Model')
-    base_model = tf.keras.applications.MobileNetV2(input_shape=img_shape,
+    base_model = tf.keras.applications.ResNet50(input_shape=img_shape,
                                                include_top=False, 
                                                weights='imagenet')
-    base_model.trainable = False
+    base_model.trainable = True
 
     model = tf.keras.Sequential([
         base_model,
@@ -98,7 +98,7 @@ def run(data_path, image_size=160, epochs=10, batch_size=32, learning_rate=0.000
         tf.keras.layers.Dense(1, activation='sigmoid')
     ])
 
-    model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=learning_rate), 
+    model.compile(optimizer=tf.keras.optimizers.Adam(lr=learning_rate), 
               loss='binary_crossentropy', 
               metrics=['accuracy'])
 
@@ -108,9 +108,6 @@ def run(data_path, image_size=160, epochs=10, batch_size=32, learning_rate=0.000
     info('Training')
     steps_per_epoch = math.ceil(len(train)/batch_size)
     history = model.fit(train_ds, epochs=epochs, steps_per_epoch=steps_per_epoch)
-
-    info('Testing Model')
-    print('TODO!')
 
     # save model
     info('Saving Model')
@@ -125,15 +122,15 @@ def run(data_path, image_size=160, epochs=10, batch_size=32, learning_rate=0.000
     #stamp = datetime.now().strftime('%y_%m_%d_%H_%M.h5')
     #stamped = str(Path(output).joinpath(stamp))
     file_output = str(Path(output).joinpath('latest.h5'))
-    #print('Serializing model to:\n{}\n{}'.format(stamped, output))
+    #print('Serializing model to:\n{}\n{}'.format(stamped, output)
     model.save(file_output)
     #model.save(stamped)
     
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='transfer learning for binary image task')
-    parser.add_argument('-s', '--base_path', help='directory to base data', default='..')
-    parser.add_argument('-d', '--data', help='directory to training and test data', default='data')
+    parser.add_argument('-s', '--base_path', help='directory to base data', default='../../data')
+    parser.add_argument('-d', '--data', help='directory to training and test data', default='train')
     parser.add_argument('-e', '--epochs', help='number of epochs', default=10, type=int)
     parser.add_argument('-b', '--batch', help='batch size', default=32, type=int)
     parser.add_argument('-i', '--image_size', help='image size', default=160, type=int)
@@ -143,10 +140,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     info('Using TensorFlow v.{}'.format(tf.__version__))
-        
+    
     data_path = Path(args.base_path).joinpath(args.data).resolve()
     target_path = Path(args.base_path).resolve().joinpath(args.outputs)
-    dataset = data_path.joinpath(args.dataset)
+    dataset = Path(args.base_path).joinpath(args.dataset)
     image_size = args.image_size
 
     args = {
@@ -165,4 +162,4 @@ if __name__ == "__main__":
 
     run(**args)
 
-    #python train.py -d data/PetImages -e 1 -b 32 -l 0.0001 -o model -f dataset.txt
+    # python train.py -d train -e 3 -b 32 -l 0.0001 -o model -f train.txt

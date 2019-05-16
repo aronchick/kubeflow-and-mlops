@@ -1,7 +1,7 @@
 import os
 import time
 import shutil
-import urllib
+import wget
 import zipfile
 import argparse
 import numpy as np
@@ -30,7 +30,7 @@ def download(source, target, force_clear=False):
 
     if source.startswith('http'):
         print("Downloading from {} to {}".format(source, target))
-        urllib.urlretrieve(source, targt_file)
+        wget.download(source, targt_file)  
         print("Done!")
     else:
         print("Copying from {} to {}".format(source, target))
@@ -41,10 +41,10 @@ def download(source, target, force_clear=False):
     zipr.extractall(target)
     zipr.close()
 
-def process_image(path, image_size):
+def process_image(path, image_size=160):
     img_raw = tf.io.read_file(path)
     img_tensor = tf.image.decode_jpeg(img_raw, channels=3)
-    img_final = tf.image.resize_image_with_pad(img_tensor, image_size, image_size) / 255
+    img_final = tf.image.resize(img_tensor, [image_size, image_size]) / 255
     return img_final
 
 def walk_images(base_path, image_size=160):
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     print('Train Path: {}'.format(data_path))
     target_path = Path(base_path).resolve().joinpath(args.target)
     print('Train File: {}'.format(target_path))
-    zip_path = Path(args.zipfile)
+    zip_path = args.zipfile
 
     print('Acquiring data...')
     download(str(zip_path), str(base_path), args.force)
