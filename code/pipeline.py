@@ -20,7 +20,7 @@ def dogsandcats_train(
     # preprocess data
     operations['preprocess'] = dsl.ContainerOp(
         name='preprocess',
-        image='tlaloc.azurecr.io/kubeflow/preprocess',
+        image='kubeflowregistry.azurecr.io/kubeflow/preprocess',
         command=['python'],
         arguments=[
             '/scripts/data.py',
@@ -35,7 +35,7 @@ def dogsandcats_train(
     # train
     operations['train'] = dsl.ContainerOp(
         name='train',
-        image='tlaloc.azurecr.io/kubeflow/train',
+        image='kubeflowregistry.azurecr.io/kubeflow/train',
         command=['python'],
         arguments=[
             '/scripts/train.py',
@@ -54,7 +54,7 @@ def dogsandcats_train(
     # score
     operations['score'] = dsl.ContainerOp(
         name='score',
-        image='tlaloc.azurecr.io/kubeflow/score',
+        image='kubeflowregistry.azurecr.io/kubeflow/score',
         command=['python'],
         arguments=[
             '/scripts/score.py',
@@ -67,7 +67,7 @@ def dogsandcats_train(
     #release
     operations['release'] = dsl.ContainerOp(
         name='release',
-        image='tlaloc.azurecr.io/kubeflow/release',
+        image='kubeflowregistry.azurecr.io/kubeflow/release',
         command=['python'],
         arguments=[
             '/scripts/release.py',
