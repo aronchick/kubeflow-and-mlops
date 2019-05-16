@@ -7,7 +7,7 @@ from kubernetes import client as k8s_client
 )
 def dogsandcats_train(
     persistent_volume_name='azure',
-    persistent_volume_path='/mnt/azure'
+    persistent_volume_path='/mnt/azure',
     base_path='/mnt/azure',
     epochs=5,
     batch=32,
@@ -20,7 +20,7 @@ def dogsandcats_train(
     # preprocess data
     operations['preprocess'] = dsl.ContainerOp(
         name='preprocess',
-        image='tlaloc.azurecr.io/kubeflow/preprocess',
+        image='kubeflowregistry.azurecr.io/kubeflow/preprocess',
         command=['python'],
         arguments=[
             '/scripts/data.py',
@@ -35,7 +35,7 @@ def dogsandcats_train(
     # train
     operations['train'] = dsl.ContainerOp(
         name='train',
-        image='tlaloc.azurecr.io/kubeflow/train',
+        image='kubeflowregistry.azurecr.io/kubeflow/train',
         command=['python'],
         arguments=[
             '/scripts/train.py',
@@ -54,7 +54,7 @@ def dogsandcats_train(
     # score
     operations['score'] = dsl.ContainerOp(
         name='score',
-        image='tlaloc.azurecr.io/kubeflow/score',
+        image='kubeflowregistry.azurecr.io/kubeflow/score',
         command=['python'],
         arguments=[
             '/scripts/score.py',
@@ -67,7 +67,7 @@ def dogsandcats_train(
     #release
     operations['release'] = dsl.ContainerOp(
         name='release',
-        image='tlaloc.azurecr.io/kubeflow/release',
+        image='kubeflowregistry.azurecr.io/kubeflow/release',
         command=['python'],
         arguments=[
             '/scripts/release.py',
@@ -80,14 +80,16 @@ def dogsandcats_train(
 
     for _, op in operations.items():
         op.add_volume(
-                k8s_client.V1Volume(
-                    host_path=k8s_client.V1HostPathVolumeSource(
-                        path=persistent_volume_path),
-                        name=persistent_volume_name)
-                ) \
-            .add_volume_mount(k8s_client.V1VolumeMount(
+            k8s_client.V1Volume(
+                name=persistent_volume_name,
+                persistent_volume_claim=k8s_client.V1PersistentVolumeClaimVolumeSource(
+                    claim_name='azure-managed-disk')
+                )
+            ).add_volume_mount(k8s_client.V1VolumeMount(
                 mount_path=persistent_volume_path, 
-                name=persistent_volume_name))
+                name=persistent_volume_name)
+            )
+
 
 if __name__ == '__main__':
    import kfp.compiler as compiler
