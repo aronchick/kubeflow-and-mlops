@@ -12,3 +12,4 @@ data/
 model/
 *.tar.gz
 *.h5
+*.zip
