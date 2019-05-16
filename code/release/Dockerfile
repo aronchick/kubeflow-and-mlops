@@ -5,7 +5,8 @@ COPY requirements.txt /scripts/requirements.txt
 RUN pip install -r /scripts/requirements.txt
 
 COPY release.py release.py
-COPY latest.h5 latest.h5
+# Only for local testing
+# COPY latest.h5 latest.h5
 COPY score.py score.py
 COPY environment.yml environment.yml
 
