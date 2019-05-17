@@ -1,7 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Kubeflow Container Build Pipeline
 
 trigger:
 - master
@@ -10,6 +7,16 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
+- script: pip install flake8 pip install flake8_formatter_junit_xml flake8 --format junit-xml --output-file $(Build.BinariesDirectory)/flake8_report.xml --exit-zero --ignore E111
+  displayName: 'Check code quality'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: '$(Build.BinariesDirectory)/*_report.xml'
+    testRunTitle: 'Publish test results' 
+
 - task: Docker@2
   inputs:
     containerRegistry: 'Kubeflow Container Registry'
@@ -37,11 +44,3 @@ steps:
     repository: 'kubeflowregistry.azurecr.io/kubeflow/release'
     command: 'buildAndPush'
     Dockerfile: 'code/release/Dockerfile'
-
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
