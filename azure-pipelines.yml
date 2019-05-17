@@ -10,6 +10,34 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Kubeflow Container Registry'
+    repository: 'kubeflowregistry.azurecr.io/kubeflow/preprocess'
+    command: 'buildAndPush'
+    Dockerfile: 'code/preprocess/Dockerfile'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Kubeflow Container Registry'
+    repository: 'kubeflowregistry.azurecr.io/kubeflow/train'
+    command: 'buildAndPush'
+    Dockerfile: 'code/train/Dockerfile'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Kubeflow Container Registry'
+    repository: 'kubeflowregistry.azurecr.io/kubeflow/score'
+    command: 'buildAndPush'
+    Dockerfile: 'code/score/Dockerfile'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Kubeflow Container Registry'
+    repository: 'kubeflowregistry.azurecr.io/kubeflow/release'
+    command: 'buildAndPush'
+    Dockerfile: 'code/release/Dockerfile'
+
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
