@@ -9,7 +9,7 @@ pool:
 steps:
 
 - script: |
-    apt-get install -y python-setuptools
+    sudo apt-get install -y python-setuptools
     pip install flake8
     pip install flake8_formatter_junit_xml
     flake8 --format junit-xml --output-file $(Build.BinariesDirectory)/flake8_report.xml --exit-zero --ignore E111
