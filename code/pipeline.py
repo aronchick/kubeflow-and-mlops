@@ -1,6 +1,7 @@
 import kfp.dsl as dsl
 from kubernetes import client as k8s_client
 
+
 @dsl.pipeline(
     name='DogsVCats',
     description='Simple TF CNN for binary classifier between dogs and cats'
@@ -11,16 +12,16 @@ def dogsandcats_train(
     base_path='/mnt/azure',
     epochs=5,
     batch=32,
-    learning_rate=0.0001
+    learning_rate=0.0001,
+    imagetag='latest'
 ):
-
 
     operations = {}
 
     # preprocess data
     operations['preprocess'] = dsl.ContainerOp(
         name='preprocess',
-        image='kubeflowregistry.azurecr.io/kubeflow/preprocess',
+        image='kubeflowregistry.azurecr.io/kubeflow/preprocess:' + str(imagetag),
         command=['python'],
         arguments=[
             '/scripts/data.py',
@@ -35,7 +36,7 @@ def dogsandcats_train(
     # train
     operations['train'] = dsl.ContainerOp(
         name='train',
-        image='kubeflowregistry.azurecr.io/kubeflow/train',
+        image='kubeflowregistry.azurecr.io/kubeflow/train:' + str(imagetag),
         command=['python'],
         arguments=[
             '/scripts/train.py',
@@ -54,7 +55,7 @@ def dogsandcats_train(
     # score
     operations['score'] = dsl.ContainerOp(
         name='score',
-        image='kubeflowregistry.azurecr.io/kubeflow/score',
+        image='kubeflowregistry.azurecr.io/kubeflow/score:' + str(imagetag),
         command=['python'],
         arguments=[
             '/scripts/score.py',
@@ -67,7 +68,7 @@ def dogsandcats_train(
     #release
     operations['release'] = dsl.ContainerOp(
         name='release',
-        image='kubeflowregistry.azurecr.io/kubeflow/release',
+        image='kubeflowregistry.azurecr.io/kubeflow/release:' + str(imagetag),
         command=['python'],
         arguments=[
             '/scripts/release.py',
@@ -79,6 +80,7 @@ def dogsandcats_train(
     operations['release'].after(operations['score'])
 
     for _, op in operations.items():
+        op.container.set_image_pull_policy("Always")
         op.add_volume(
             k8s_client.V1Volume(
                 name=persistent_volume_name,
