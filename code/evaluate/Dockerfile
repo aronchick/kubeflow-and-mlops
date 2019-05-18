@@ -9,5 +9,5 @@ COPY score.py /scripts/score.py
 
 # python score.py -m model/latest.h5
 ENTRYPOINT [ "python", \
-            "/scripts/score.py", \
+            "/scripts/eval.py", \
             "-m", "model/latest.h5" ]

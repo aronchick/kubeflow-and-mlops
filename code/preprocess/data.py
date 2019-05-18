@@ -79,7 +79,6 @@ def walk_images(base_path, image_size=160):
     return images
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(description='data cleaning for binary image task')
     parser.add_argument('-b', '--base_path', help='directory to base data', default='../../data')
     parser.add_argument('-d', '--data', help='directory to training data', default='train')
