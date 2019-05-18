@@ -3,10 +3,10 @@ from kubernetes import client as k8s_client
 
 
 @dsl.pipeline(
-    name='DogsVCats',
-    description='Simple TF CNN for binary classifier between dogs and cats'
+    name='TacosVsBurritos',
+    description='Simple TF CNN for binary classifier between burritos and tacos'
 )
-def dogsandcats_train(
+def tacosandburritos_train(
     persistent_volume_name='azure',
     persistent_volume_path='/mnt/azure',
     base_path='/mnt/azure',
