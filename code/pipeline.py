@@ -3,20 +3,31 @@ from kubernetes import client as k8s_client
 
 
 @dsl.pipeline(
-    name='DogsVCats',
-    description='Simple TF CNN for binary classifier between dogs and cats'
+    name='Tacos vs. Burritos',
+    description='Simple TF CNN for binary classifier between burritos and tacos'
 )
-def dogsandcats_train(
+def tacosandburritos_train(
+    tenant_id,
+    service_principal_id,
+    service_principal_password,
+    subscription_id,
+    resource_group,
+    workspace,
     persistent_volume_name='azure',
     persistent_volume_path='/mnt/azure',
-    base_path='/mnt/azure',
+    data_download='https://centeotl.blob.core.windows.net/public/tacodata.zip',
     epochs=5,
     batch=32,
     learning_rate=0.0001,
-    imagetag='latest'
+    imagetag='latest',
+    model_name='tacosandburritos',
 ):
 
     operations = {}
+    image_size = 160
+    training_folder = 'train'
+    training_dataset = 'train.txt'
+    model_folder = 'model'
 
     # preprocess data
     operations['preprocess'] = dsl.ContainerOp(
@@ -26,58 +37,51 @@ def dogsandcats_train(
         arguments=[
             '/scripts/data.py',
             '--base_path', persistent_volume_path,
-            '--data', 'train',
-            '--target', 'train.txt',
-            '--img_size', '160',
-            '--zipfile', 'https://location_to_data'
+            '--data', training_folder,
+            '--target', training_dataset,
+            '--img_size', image_size,
+            '--zipfile', data_download
         ]
     )
 
     # train
-    operations['train'] = dsl.ContainerOp(
-        name='train',
-        image='kubeflowregistry.azurecr.io/kubeflow/train:' + str(imagetag),
+    operations['training'] = dsl.ContainerOp(
+        name='training',
+        image='kubeflowregistry.azurecr.io/kubeflow/training:' + str(imagetag),
         command=['python'],
         arguments=[
             '/scripts/train.py',
             '--base_path', persistent_volume_path,
-            '--data', 'train', 
+            '--data', training_folder, 
             '--epochs', epochs, 
             '--batch', batch, 
-            '--image_size', '160', 
+            '--image_size', image_size, 
             '--lr', learning_rate, 
-            '--outputs', 'model', 
-            '--dataset', 'train.txt'
+            '--outputs', model_folder, 
+            '--dataset', training_dataset
         ]
     )
-    operations['train'].after(operations['preprocess'])
+    operations['training'].after(operations['preprocess'])
 
-    # score
-    operations['score'] = dsl.ContainerOp(
-        name='score',
-        image='kubeflowregistry.azurecr.io/kubeflow/score:' + str(imagetag),
+    # register model
+    operations['register'] = dsl.ContainerOp(
+        name='register',
+        image='kubeflowregistry.azurecr.io/kubeflow/register:' + str(imagetag),
         command=['python'],
         arguments=[
-            '/scripts/score.py',
+            '/scripts/register.py',
             '--base_path', persistent_volume_path,
-            '--model', 'model/latest.h5'
+            '--model', 'latest.h5',
+            '--model_name', model_name,
+            '--tenant_id', tenant_id,
+            '--service_principal_id', service_principal_id,
+            '--service_principal_password', service_principal_password,
+            '--subscription_id', subscription_id,
+            '--resource_group', resource_group,
+            '--workspace', workspace
         ]
     )
-    operations['score'].after(operations['train'])
-
-    #release
-    operations['release'] = dsl.ContainerOp(
-        name='release',
-        image='kubeflowregistry.azurecr.io/kubeflow/release:' + str(imagetag),
-        command=['python'],
-        arguments=[
-            '/scripts/release.py',
-            '--base_path', persistent_volume_path,
-            '--model', 'model/latest.h5',
-            '--model_name', 'model/latest.h5'
-        ]
-    )
-    operations['release'].after(operations['score'])
+    operations['register'].after(operations['training'])
 
     for _, op in operations.items():
         op.container.set_image_pull_policy("Always")
@@ -95,4 +99,4 @@ def dogsandcats_train(
 
 if __name__ == '__main__':
    import kfp.compiler as compiler
-   compiler.Compiler().compile(dogsandcats_train, __file__ + '.tar.gz')
+   compiler.Compiler().compile(tacosandburritos_train, __file__ + '.tar.gz')

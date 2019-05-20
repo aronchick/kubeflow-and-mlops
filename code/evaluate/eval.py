@@ -67,28 +67,12 @@ def run(raw_data):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='sanity check on model')
-    parser.add_argument('-b', '--base_path', help='directory to base data', default='..')
+    parser.add_argument('-b', '--base_path', help='directory to base data', default='../../data')
     parser.add_argument('-m', '--model', help='directory to training and test data', default='model/latest.h5')
+    parser.add_argument('-v', '--val_path', help='validation path for scoring', default='val')
     args = parser.parse_args()
 
-    data_path = str(Path(args.base_path).resolve().joinpath(args.model).resolve())
-
-    info('Loading Model')
-    print('Using TensorFlow v.{}'.format(tf.__version__))
-    print('Loading from {}'.format(data_path))
-    model = load(data_path)
-    print(model.summary())
-
-    info('Test')
-    images = {
-        'cat': 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131',
-        'dog': 'https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg'
-    }
-
-    for k, v in images.items():
-        print('{} => {}'.format(k, v))
-
-    run(json.dumps({ 'image': images['cat'] }))
-    run(json.dumps({ 'image': images['dog'] }))
+    model_path = str(Path(args.base_path).resolve().joinpath(args.model).resolve())
+    
 
     # python score.py -m model/latest.h5

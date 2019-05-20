@@ -79,7 +79,6 @@ def walk_images(base_path, image_size=160):
     return images
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(description='data cleaning for binary image task')
     parser.add_argument('-b', '--base_path', help='directory to base data', default='../../data')
     parser.add_argument('-d', '--data', help='directory to training data', default='train')
@@ -102,13 +101,16 @@ if __name__ == "__main__":
 
     print('Acquiring data...')
     download(str(zip_path), str(base_path), args.force)
-    print('Testing images...')
-    images = walk_images(str(data_path), args.img_size)
 
-    # save file
-    print('writing dataset to {}'.format(target_path))
-    with open(str(target_path), 'w+') as f:
-        f.write('\n'.join(images))
+    if os.path.exists(str(data_path)):
+        print('dataset text file already exists, skipping check')
+    else:
+        print('Testing images...')
+        images = walk_images(str(data_path), args.img_size)
 
-    # python data.py -d data/PetImages -t train.txt
-    # python data.py -d data/train -t dataset.txt
+        # save file
+        print('writing dataset to {}'.format(target_path))
+        with open(str(target_path), 'w+') as f:
+            f.write('\n'.join(images))
+
+    # python data.py -z https://centeotl.blob.core.windows.net/public/tacodata.zip -t train.txt
