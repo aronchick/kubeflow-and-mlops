@@ -6,7 +6,7 @@ import zipfile
 import argparse
 import numpy as np
 import tensorflow as tf
-from pathlib import Path
+from pathlib2 import Path
 
 def check_dir(path, check=False):
     if check:

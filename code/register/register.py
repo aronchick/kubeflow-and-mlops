@@ -1,7 +1,7 @@
 import os
 import azureml
 import argparse
-from pathlib import Path
+from pathlib2 import Path
 from azureml.core import Workspace
 from azureml.core.model import Model
 from azureml.core.image import ContainerImage, Image

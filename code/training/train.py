@@ -4,7 +4,7 @@ import math
 import argparse
 import numpy as np
 import tensorflow as tf
-from pathlib import Path
+from pathlib2 import Path
 from random import shuffle
 from datetime import datetime
 from tensorflow.data import Dataset

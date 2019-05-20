@@ -1,2 +1,2 @@
 Pillow
-pathlib
+pathlib2
