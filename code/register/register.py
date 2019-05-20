@@ -52,7 +52,7 @@ if __name__ == "__main__":
     
     print('Azure ML SDK Version: {}'.format(azureml.core.VERSION))
 
-    model_path = data_path = str(Path(args.base_path).resolve().joinpath(args.model).resolve())
+    model_path = data_path = str(Path(args.base_path).resolve(strict=False).joinpath(args.model).resolve(strict=False))
     rgs = {
         'model_path': model_path,
         'model_name': args.model_name,

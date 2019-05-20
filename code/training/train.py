@@ -23,7 +23,7 @@ def check_dir(path, check=False):
     else:
         if not os.path.exists(path):
             os.makedirs(path)
-        return Path(path).resolve()
+        return Path(path).resolve(strict=False)
 
 def process_image(path, label):
     img_raw = tf.io.read_file(path)
@@ -141,8 +141,8 @@ if __name__ == "__main__":
 
     info('Using TensorFlow v.{}'.format(tf.__version__))
     
-    data_path = Path(args.base_path).joinpath(args.data).resolve()
-    target_path = Path(args.base_path).resolve().joinpath(args.outputs)
+    data_path = Path(args.base_path).joinpath(args.data).resolve(strict=False)
+    target_path = Path(args.base_path).resolve(strict=False).joinpath(args.outputs)
     dataset = Path(args.base_path).joinpath(args.dataset)
     image_size = args.image_size
 

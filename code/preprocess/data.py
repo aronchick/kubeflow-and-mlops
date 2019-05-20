@@ -14,7 +14,7 @@ def check_dir(path, check=False):
     else:
         if not os.path.exists(path):
             os.makedirs(path)
-        return Path(path).resolve()
+        return Path(path).resolve(strict=False)
 
 def download(source, target, force_clear=False):
     if force_clear and os.path.exists(target):
@@ -91,11 +91,11 @@ if __name__ == "__main__":
 
     print('Using TensorFlow v.{}'.format(tf.__version__))
 
-    base_path = Path(args.base_path).resolve()
+    base_path = Path(args.base_path).resolve(strict=False)
     print('Base Path:  {}'.format(base_path))
-    data_path = base_path.joinpath(args.data).resolve()
+    data_path = base_path.joinpath(args.data).resolve(strict=False)
     print('Train Path: {}'.format(data_path))
-    target_path = Path(base_path).resolve().joinpath(args.target)
+    target_path = Path(base_path).resolve(strict=False).joinpath(args.target)
     print('Train File: {}'.format(target_path))
     zip_path = args.zipfile
 

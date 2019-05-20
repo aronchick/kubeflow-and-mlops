@@ -48,13 +48,12 @@ spec:
       image: kubeflowregistry.azurecr.io/kubeflow/preprocess:{{inputs.parameters.imagetag}}
       imagePullPolicy: Always
       volumeMounts:
-      - mountPath: '{{inputs.parameters.persistent-volume-path}}'
-        name: '{{inputs.parameters.persistent-volume-name}}'
+      - mountPath: /mnt/azure
+        name: azure
     inputs:
       parameters:
       - name: data-download
       - name: imagetag
-      - name: persistent-volume-name
       - name: persistent-volume-path
     name: preprocess
     outputs:
@@ -91,13 +90,12 @@ spec:
       image: kubeflowregistry.azurecr.io/kubeflow/register:{{inputs.parameters.imagetag}}
       imagePullPolicy: Always
       volumeMounts:
-      - mountPath: '{{inputs.parameters.persistent-volume-path}}'
-        name: '{{inputs.parameters.persistent-volume-name}}'
+      - mountPath: /mnt/azure
+        name: azure
     inputs:
       parameters:
       - name: imagetag
       - name: model-name
-      - name: persistent-volume-name
       - name: persistent-volume-path
       - name: resource-group
       - name: service-principal-id
@@ -122,8 +120,6 @@ spec:
             value: '{{inputs.parameters.data-download}}'
           - name: imagetag
             value: '{{inputs.parameters.imagetag}}'
-          - name: persistent-volume-name
-            value: '{{inputs.parameters.persistent-volume-name}}'
           - name: persistent-volume-path
             value: '{{inputs.parameters.persistent-volume-path}}'
         name: preprocess
@@ -134,8 +130,6 @@ spec:
             value: '{{inputs.parameters.imagetag}}'
           - name: model-name
             value: '{{inputs.parameters.model-name}}'
-          - name: persistent-volume-name
-            value: '{{inputs.parameters.persistent-volume-name}}'
           - name: persistent-volume-path
             value: '{{inputs.parameters.persistent-volume-path}}'
           - name: resource-group
@@ -164,8 +158,6 @@ spec:
             value: '{{inputs.parameters.imagetag}}'
           - name: learning-rate
             value: '{{inputs.parameters.learning-rate}}'
-          - name: persistent-volume-name
-            value: '{{inputs.parameters.persistent-volume-name}}'
           - name: persistent-volume-path
             value: '{{inputs.parameters.persistent-volume-path}}'
         dependencies:
@@ -180,7 +172,6 @@ spec:
       - name: imagetag
       - name: learning-rate
       - name: model-name
-      - name: persistent-volume-name
       - name: persistent-volume-path
       - name: resource-group
       - name: service-principal-id
@@ -213,15 +204,14 @@ spec:
       image: kubeflowregistry.azurecr.io/kubeflow/training:{{inputs.parameters.imagetag}}
       imagePullPolicy: Always
       volumeMounts:
-      - mountPath: '{{inputs.parameters.persistent-volume-path}}'
-        name: '{{inputs.parameters.persistent-volume-name}}'
+      - mountPath: /mnt/azure
+        name: azure
     inputs:
       parameters:
       - name: batch
       - name: epochs
       - name: imagetag
       - name: learning-rate
-      - name: persistent-volume-name
       - name: persistent-volume-path
     name: training
     outputs:
@@ -233,6 +223,6 @@ spec:
         optional: true
         path: /mlpipeline-metrics.json
   volumes:
-  - name: '{{inputs.parameters.persistent-volume-name}}'
+  - name: azure
     persistentVolumeClaim:
       claimName: azure-managed-disk
