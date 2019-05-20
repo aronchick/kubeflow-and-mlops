@@ -102,7 +102,7 @@ if __name__ == "__main__":
     print('Acquiring data...')
     download(str(zip_path), str(base_path), args.force)
 
-    if os.path.exists(str(data_path)):
+    if os.path.exists(str(target_path)):
         print('dataset text file already exists, skipping check')
     else:
         print('Testing images...')
