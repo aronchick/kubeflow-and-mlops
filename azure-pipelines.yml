@@ -28,9 +28,5 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: 'cd code
       cd preprocess
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:latest --context .
-      cd ../training
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:latest --context .
-      cd ../register
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:latest --context .
-      '
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:latest --context .'
+    failOnStandardError: true
