@@ -29,7 +29,7 @@ steps:
     inlineScript: '
       cd code &&
       cd preprocess &&
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION . &&'
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION .'
     failOnStandardError: true
     displayName: 'Build & Push Preprocess Image'
 
