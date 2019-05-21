@@ -28,7 +28,7 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: '
       env
-      echo ${Build.SourceVersion}
+      echo $Build.SourceVersion
       cd code
       cd preprocess
       az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:latest --context .'
