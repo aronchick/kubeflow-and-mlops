@@ -30,7 +30,6 @@ steps:
       cd code &&
       cd preprocess &&
       az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION .'
-    failOnStandardError: true
     displayName: 'Build & Push Preprocess Image'
 
 - task: AzureCLI@1
@@ -41,7 +40,6 @@ steps:
       cd code &&
       cd training &&
       az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:$BUILD_SOURCEVERSION .'
-    failOnStandardError: true
     displayName: 'Build & Push Training Image'
 
 - task: AzureCLI@1
@@ -52,6 +50,5 @@ steps:
       cd code &&
       cd register &&
       az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:$BUILD_SOURCEVERSION .'
-    failOnStandardError: true
     displayName: 'Build & Push Register Image'
 
