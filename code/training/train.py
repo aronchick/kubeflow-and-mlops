@@ -87,7 +87,7 @@ def run(data_path, image_size=160, epochs=10, batch_size=32, learning_rate=0.000
 
     # model
     info('Creating Model')
-    base_model = tf.keras.applications.ResNet50(input_shape=img_shape,
+    base_model = tf.keras.applications.MobileNetV2(input_shape=img_shape,
                                                include_top=False, 
                                                weights='imagenet')
     base_model.trainable = True
@@ -117,14 +117,12 @@ def run(data_path, image_size=160, epochs=10, batch_size=32, learning_rate=0.000
 
     print('Serializing into saved_model format')
     tf.saved_model.save(model, str(output))
+    print('Done!')
 
     # add time prefix folder
-    #stamp = datetime.now().strftime('%y_%m_%d_%H_%M.h5')
-    #stamped = str(Path(output).joinpath(stamp))
     file_output = str(Path(output).joinpath('latest.h5'))
-    #print('Serializing model to:\n{}\n{}'.format(stamped, output)
+    print('Serializing h5 model to:\n{}'.format(file_output))
     model.save(file_output)
-    #model.save(stamped)
     
 
 if __name__ == "__main__":
