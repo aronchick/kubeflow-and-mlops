@@ -8,25 +8,26 @@ pool:
 
 steps:
 
-- script: |
-    sudo apt-get install -y python-setuptools
-    pip install wheel
-    pip install flake8
-    pip install flake8_formatter_junit_xml
-    python -m flake8 --format junit-xml --exit-zero --output-file $(Build.BinariesDirectory)/flake8_report.xml --ignore E111
-  displayName: 'Check code quality'
+# - script: |
+#     sudo apt-get install -y python-setuptools
+#     pip install wheel
+#     pip install flake8
+#     pip install flake8_formatter_junit_xml
+#     python -m flake8 --format junit-xml --exit-zero --output-file $(Build.BinariesDirectory)/flake8_report.xml --ignore E111
+#   displayName: 'Check code quality'
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFiles: '$(Build.BinariesDirectory)/*_report.xml'
-    testRunTitle: 'Publish test results' 
+# - task: PublishTestResults@2
+#   condition: succeededOrFailed()
+#   inputs:
+#     testResultsFiles: '$(Build.BinariesDirectory)/*_report.xml'
+#     testRunTitle: 'Publish test results' 
 
 - task: AzureCLI@1
   inputs:
     azureSubscription: 'Shared Data Platform - R+D (1308a130-d549-44e1-ba66-ce8c487d76e3)'
     scriptLocation: 'inlineScript'
-    inlineScript: 'cd code
+    inlineScript: 'env
+      cd code
       cd preprocess
       az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:latest --context .'
     failOnStandardError: true
