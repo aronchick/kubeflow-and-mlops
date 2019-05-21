@@ -73,4 +73,6 @@ if __name__ == "__main__":
 
     run(**rgs)
 
-    # python release.py -b .. -m model/latest.h5 -n tacosandburritos
+    # python register.py --model_path v --model_name c --tenant_id c
+    # --service_principal_id v --service_principal_password v
+    # --subscription_id v --resource_group x --workspace c
