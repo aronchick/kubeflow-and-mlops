@@ -13,7 +13,7 @@ steps:
     pip install wheel
     pip install flake8
     pip install flake8_formatter_junit_xml
-    python -m flake8 --format junit-xml --output-file $(Build.BinariesDirectory)/flake8_report.xml --ignore E111
+    python -m flake8 --format junit-xml --exit-zero --output-file $(Build.BinariesDirectory)/flake8_report.xml --ignore E111
   displayName: 'Check code quality'
 
 - task: PublishTestResults@2
@@ -22,30 +22,10 @@ steps:
     testResultsFiles: '$(Build.BinariesDirectory)/*_report.xml'
     testRunTitle: 'Publish test results' 
 
-- task: Docker@2
+- task: AzureCLI@1
   inputs:
-    containerRegistry: 'Kubeflow Container Registry'
-    repository: 'kubeflowregistry.azurecr.io/kubeflow/preprocess'
-    command: 'buildAndPush'
-    Dockerfile: 'code/preprocess/Dockerfile'
-
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Kubeflow Container Registry'
-    repository: 'kubeflowregistry.azurecr.io/kubeflow/train'
-    command: 'buildAndPush'
-    Dockerfile: 'code/training/Dockerfile'
-
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Kubeflow Container Registry'
-    repository: 'kubeflowregistry.azurecr.io/kubeflow/score'
-    command: 'buildAndPush'
-    Dockerfile: 'code/scoring/Dockerfile'
-
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Kubeflow Container Registry'
-    repository: 'kubeflowregistry.azurecr.io/kubeflow/release'
-    command: 'buildAndPush'
-    Dockerfile: 'code/release/Dockerfile'
+    azureSubscription: 'Shared Data Platform - R+D (1308a130-d549-44e1-ba66-ce8c487d76e3)'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      cd code
+      ls -l
