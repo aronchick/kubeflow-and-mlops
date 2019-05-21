@@ -31,5 +31,9 @@ steps:
       echo $BUILD_SOURCEVERSION &&
       cd code &&
       cd preprocess &&
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:latest --context .'
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION . &&
+      cd ../training &&
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:$BUILD_SOURCEVERSION . &&
+      cd ../register
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:$BUILD_SOURCEVERSION .'
     failOnStandardError: true
