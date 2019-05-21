@@ -29,8 +29,8 @@ steps:
     inlineScript: |
       cd code
       cd preprocess
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_BUILDID --context .
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:$Build.SourceVersion --context .
       cd ../training
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:$BUILD_BUILDID --context .
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:$Build.SourceVersion --context .
       cd ../register
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:$BUILD_BUILDID --context .
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:$Build.SourceVersion --context .
