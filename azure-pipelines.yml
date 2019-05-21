@@ -27,7 +27,6 @@ steps:
     azureSubscription: 'Shared Data Platform - R+D (1308a130-d549-44e1-ba66-ce8c487d76e3)'
     scriptLocation: 'inlineScript'
     inlineScript: '
-      sudo apt-get update && sudo apt-get install --only-upgrade -y azure-cli &&
       echo $BUILD_SOURCEVERSION &&
       cd code &&
       cd preprocess &&
