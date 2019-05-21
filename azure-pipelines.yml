@@ -26,11 +26,11 @@ steps:
   inputs:
     azureSubscription: 'Shared Data Platform - R+D (1308a130-d549-44e1-ba66-ce8c487d76e3)'
     scriptLocation: 'inlineScript'
-    inlineScript: |
-      cd code
+    inlineScript: 'cd code
       cd preprocess
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:$Build.SourceVersion --context .
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:latest --context .
       cd ../training
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:$Build.SourceVersion --context .
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:latest --context .
       cd ../register
-      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:$Build.SourceVersion --context .
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:latest --context .
+      '
