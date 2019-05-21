@@ -28,4 +28,9 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       cd code
-      ls -l
+      cd preprocess
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:${BUILD.BUILDID} --context .
+      cd ../training
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:${BUILD.BUILDID} --context .
+      cd ../register
+      az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:${BUILD.BUILDID} --context .
