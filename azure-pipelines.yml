@@ -60,7 +60,8 @@ stages:
       inputs:
         azureSubscription: 'Shared Data Platform - R+D (1308a130-d549-44e1-ba66-ce8c487d76e3)'
         scriptLocation: 'inlineScript'
-        inlineScript: 'az aks get-credentials -g kubeflow-mlops-rg -n kubeflow-mlops-cluster
+        inlineScript: |
+          az aks get-credentials -g kubeflow-mlops-rg -n kubeflow-mlops-cluster
           kubectl port-forward --namespace kubeflow svc/ml-pipeline 8888:8888 &
           kubepid=$!
           
@@ -77,5 +78,5 @@ stages:
           
           python3 script.py
           
-          kill $kubepid'
+          kill $kubepid
         displayName: 'Trigger Kubeflow Pipeline'
