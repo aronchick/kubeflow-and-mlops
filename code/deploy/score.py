@@ -26,7 +26,6 @@ def init():
 
 def run(raw_data):
     global model
-    info('Inference')
     prev_time = time.time()
           
     post = json.loads(raw_data)
@@ -80,5 +79,12 @@ if __name__ == "__main__":
     for k, v in images.items():
         print('{} => {}'.format(k, v))
 
-    run(json.dumps({ 'image': images['tacos'] }))
-    run(json.dumps({ 'image': images['burrito'] }))
+    info('Taco Test')
+    taco = json.dumps({ 'image': images['tacos'] })
+    print(taco)
+    run(taco)
+
+    info('Burrito Test')
+    burrito = json.dumps({ 'image': images['burrito'] })
+    print(burrito)
+    run(burrito)

@@ -1,0 +1,1 @@
+az ml model profile -n foodprofile -m tacosandburritos:6 --ic inferenceconfig.json -d "{\"image\": \"https://www.exploreveg.org/files/2015/05/sofritas-burrito.jpeg\"}" -t myprofileresult.json
