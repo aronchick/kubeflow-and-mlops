@@ -1,4 +1,5 @@
 import os
+from os.path import relpath
 import azureml
 import argparse
 from pathlib2 import Path
@@ -33,6 +34,10 @@ def run(model_path, model_name, tenant_id, service_principal_id,
     print(ws.get_details())
 
     print('\nSaving model {} to {}'.format(model_path, model_name))
+
+    # Model Path needs to be relative
+    model_path = relpath(model_path, '.')
+
     model = Model.register(ws, model_name=model_name, model_path=model_path)
     print('Done!')
 
