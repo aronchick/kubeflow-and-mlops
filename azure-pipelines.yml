@@ -52,7 +52,7 @@ stages:
   jobs:
   - job: Kubeflow
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-16.04'
     steps:
     - task: AzureCLI@1
       env:
