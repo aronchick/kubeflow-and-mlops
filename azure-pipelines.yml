@@ -71,8 +71,8 @@ stages:
           
           touch script.py
           echo "import kfp" >> script.py
-          echo "client = kfp.Client(host=''localhost:8888'')" >> script.py
-          echo "client.run_pipeline(''$KF_EXPERIMENT_ID'', ''Run ${BUILD_BUILDID}'', params={''imagetag'': ''${BUILD_SOURCEVERSION}'', ''tenant-id'': ''$KF_TENANT_ID'', ''service-principal-id'': ''$KF_SERVICE_PRINCIPAL_ID'', ''service-principal-password'': ''$KF_MAPPED_SERVICE_PRINCIPAL_PASSWORD'', ''subscription-id'': ''$KF_SUBSCRIPTION_ID'', ''resource-group'': ''$KF_RESOURCE_GROUP'', ''workspace'': ''$KF_WORKSPACE'', ''persistent-volume-name'': ''$KF_PERSISTENT_VOLUME_NAME'', ''persistent-volume-path'': ''$KF_PERSISTENT_VOLUME_PATH'', ''data-download'': ''$KF_DATA_DOWNLOAD'', ''epochs'': ''$KF_EPOCHS'', ''batch'': ''$KF_BATCH'', ''learning-rate'': ''$KF_LEARNING_RATE'', ''model-name'': ''$KF_MODEL_NAME''}, pipeline_id=''$KF_PIPELINE_ID'')" >> script.py 
+          echo "client = kfp.Client(host='localhost:8888')" >> script.py
+          echo "client.run_pipeline('$KF_EXPERIMENT_ID', 'Run ${BUILD_BUILDID}', params={'imagetag': '${BUILD_SOURCEVERSION}', 'tenant-id': '$KF_TENANT_ID', 'service-principal-id': '$KF_SERVICE_PRINCIPAL_ID', 'service-principal-password': '$KF_MAPPED_SERVICE_PRINCIPAL_PASSWORD', 'subscription-id': '$KF_SUBSCRIPTION_ID', 'resource-group': '$KF_RESOURCE_GROUP', 'workspace': '$KF_WORKSPACE', 'persistent-volume-name': '$KF_PERSISTENT_VOLUME_NAME', 'persistent-volume-path': '$KF_PERSISTENT_VOLUME_PATH', 'data-download': '$KF_DATA_DOWNLOAD', 'epochs': '$KF_EPOCHS', 'batch': '$KF_BATCH', 'learning-rate': '$KF_LEARNING_RATE', 'model-name': '$KF_MODEL_NAME'}, pipeline_id='$KF_PIPELINE_ID')" >> script.py 
           
           cat script.py
           
