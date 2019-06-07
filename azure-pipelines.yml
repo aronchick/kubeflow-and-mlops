@@ -43,14 +43,6 @@ stages:
           az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:$BUILD_SOURCEVERSION .'
         displayName: 'Build & Push Register Image'
 
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'Kubeflow Container Registry'
-        repository: 'kubeflow'
-        command: 'buildAndPush'
-        Dockerfile: '**/code/preprocess/Dockerfile'
-        tags: '$BUILD_SOURCEVERSION'
-        displayName: 'Build & Push Preprocess Image - with Docker'
 
 # Moved KF step to build
 - stage: KubeflowTrigger
