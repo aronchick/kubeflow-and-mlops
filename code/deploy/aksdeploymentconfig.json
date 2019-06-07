@@ -1,0 +1,4 @@
+{
+    "computeType": "aks",
+    "ComputeTarget": "kubeflow-mlops-cluster"
+}
