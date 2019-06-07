@@ -20,7 +20,7 @@ stages:
         inlineScript: '
           cd code &&
           cd preprocess &&
-          az acr build -t --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION .'
+          az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION .'
         displayName: 'Build & Push Preprocess Image'
 
     - task: AzureCLI@1
@@ -30,7 +30,7 @@ stages:
         inlineScript: '
           cd code &&
           cd training &&
-          az acr build -t --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:$BUILD_SOURCEVERSION .'
+          az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/training:$BUILD_SOURCEVERSION .'
         displayName: 'Build & Push Training Image'
 
     - task: AzureCLI@1
@@ -40,7 +40,7 @@ stages:
         inlineScript: '
           cd code &&
           cd register &&
-          az acr build -t --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:$BUILD_SOURCEVERSION .'
+          az acr build --registry kubeflowregistry --image kubeflowregistry.azurecr.io/kubeflow/register:$BUILD_SOURCEVERSION .'
         displayName: 'Build & Push Register Image'
 
 # Moved KF step to build
