@@ -11,7 +11,7 @@ stages:
   jobs:
   - job: Containers
     pool:
-      vmImage: 'ubuntu-latest'
+      name: Default 
     steps:
     - task: AzureCLI@1
       inputs:
