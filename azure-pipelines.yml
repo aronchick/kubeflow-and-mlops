@@ -49,7 +49,7 @@ stages:
         repository: 'kubeflow'
         command: 'buildAndPush'
         Dockerfile: '**/code/preprocess/Dockerfile'
-        tags: '$(BUILD_SOURCEVERSION)'
+        tags: '$BUILD_SOURCEVERSION'
         displayName: 'Build & Push Preprocess Image - with Docker'
 
 # Moved KF step to build
