@@ -1,7 +1,7 @@
 {
     "containerResourceRequirements": {
-       "cpu": 1,
-       "memoryInGB": 1
+       "cpu": 2,
+       "memoryInGB": 4
     },
     "computeType": "ACI"
  }

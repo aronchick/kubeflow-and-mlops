@@ -1,1 +1,1 @@
-az ml model deploy --name tacosandburritos --execution-script score.py --runtime python --conda-file environment.yml --model tacosandburritos:6 --deploy-metadata-file deploymentconfig.json --resource-group kubeflow-mlops-rg --workspace-name kfaml --overwrite -v
+az ml model deploy --name tacosandburritos --ic ./inferenceconfig.json --dc ./deploymentconfig.json --model tacosandburritos:6 --overwrite -v
