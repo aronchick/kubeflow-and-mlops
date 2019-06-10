@@ -1,4 +1,4 @@
 {
     "computeType": "aks",
-    "ComputeTarget": "kubeflow-mlops-cluster"
+    "ComputeTarget": "kubeflow-mlops-inference-cluster"
 }
