@@ -1,6 +1,9 @@
 from __future__ import absolute_import, division, print_function
 import os
 import math
+import hmac
+import json
+import hashlib
 import argparse
 import numpy as np
 import tensorflow as tf
@@ -123,7 +126,22 @@ def run(data_path, image_size=160, epochs=10, batch_size=32, learning_rate=0.000
     file_output = str(Path(output).joinpath('latest.h5'))
     print('Serializing h5 model to:\n{}'.format(file_output))
     model.save(file_output)
+
+    return generate_hash(file_output, 'kf_pipeline')
     
+
+def generate_hash(file, key):
+    print('Generating hash for {}'.format(file))
+    m = hmac.new(str.encode(key), digestmod=hashlib.sha3_256)
+    BUF_SIZE = 65536
+    with open(file, 'rb') as f:
+        while True:
+            data = f.read(BUF_SIZE)
+            if not data: 
+                break
+            m.update(data)
+
+    return m.hexdigest()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='transfer learning for binary image task')
@@ -144,6 +162,8 @@ if __name__ == "__main__":
     dataset = Path(args.base_path).joinpath(args.dataset)
     image_size = args.image_size
 
+    params = Path(args.base_path).joinpath('params.json')
+
     args = {
         "data_path": str(data_path), 
         "image_size": image_size, 
@@ -154,10 +174,20 @@ if __name__ == "__main__":
         "dataset": str(dataset)
     }
 
+    dataset_signature = generate_hash(dataset, 'kf_pipeline')
     # printing out args for posterity
     for i in args:
         print('{} => {}'.format(i, args[i]))
 
-    run(**args)
+    model_signature = run(**args)
+
+    args['dataset_signature'] = dataset_signature.upper()
+    args['model_signature'] = model_signature.upper()
+    args['model_type'] = 'tfv2-MobileNetV2'
+    print('Writing out params...', end='')
+    with open(str(params), 'w') as f:
+        json.dump(args, f)
+
+    print(' Saved to {}'.format(str(params)))
 
     # python train.py -d train -e 3 -b 32 -l 0.0001 -o model -f train.txt

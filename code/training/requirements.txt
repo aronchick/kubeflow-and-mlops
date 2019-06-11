@@ -1,2 +1,4 @@
 Pillow
 pathlib2
+hashlib
+hmac

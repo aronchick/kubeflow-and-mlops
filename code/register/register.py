@@ -1,4 +1,5 @@
 import os
+import json
 from os.path import relpath
 import azureml
 import argparse
@@ -16,7 +17,7 @@ def info(msg, char = "#", width = 75):
     print(char * width)
 
 def run(model_path, model_name, tenant_id, service_principal_id,
-        service_principal_password, subscription_id, resource_group, workspace):
+        service_principal_password, subscription_id, resource_group, workspace, tags):
     auth_args = {
         'tenant_id': tenant_id,
         'service_principal_id': service_principal_id,
@@ -38,13 +39,13 @@ def run(model_path, model_name, tenant_id, service_principal_id,
     # Model Path needs to be relative
     model_path = relpath(model_path, '.')
 
-    model = Model.register(ws, model_name=model_name, model_path=model_path)
+    model = Model.register(ws, model_name=model_name, model_path=model_path, tags=tags)
     print('Done!')
 
 if __name__ == "__main__":
     # argparse stuff for model path and model name
     parser = argparse.ArgumentParser(description='sanity check on model')
-    parser.add_argument('-b', '--base_path', help='directory to base folder', default='..')
+    parser.add_argument('-b', '--base_path', help='directory to base folder', default='../../data')
     parser.add_argument('-m', '--model', help='path to model file', default='/model/latest.h5')
     parser.add_argument('-n', '--model_name', help='AML Model name', default='tacosandburritos')
     parser.add_argument('-t', '--tenant_id', help='tenant_id')
@@ -58,6 +59,7 @@ if __name__ == "__main__":
     print('Azure ML SDK Version: {}'.format(azureml.core.VERSION))
     args.model = 'model/' + args.model
     model_path = str(Path(args.base_path).resolve(strict=False).joinpath(args.model).resolve(strict=False))
+    params_path = str(Path(args.base_path).resolve(strict=False).joinpath('params.json').resolve(strict=False))
     rgs = {
         'model_path': model_path,
         'model_name': args.model_name,
@@ -75,6 +77,15 @@ if __name__ == "__main__":
             print('{} => **********'.format(i))
         else:
             print('{} => {}'.format(i, rgs[i]))
+
+    with(open(str(params_path), 'r')) as f:
+        tags = json.load(f)
+
+    print('\n\nUsing the following tags:')
+    for tag in tags:
+        print('{} => {}'.format(tag, tags[tag]))
+
+    rgs['tags'] = tags
 
     run(**rgs)
 
