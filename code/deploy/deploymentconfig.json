@@ -4,5 +4,5 @@
        "memoryInGB": 4
     },
     "computeType": "ACI",
-    "appInsightsEnabled" : true
+    "enableAppInsights": "True"
  }
