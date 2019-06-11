@@ -14,3 +14,5 @@ model/
 *.tar.gz
 *.h5
 *.zip
+
+aml_config/
