@@ -18,6 +18,7 @@ stages:
         azureSubscription: 'Shared Data Platform - R+D (1308a130-d549-44e1-ba66-ce8c487d76e3)'
         scriptLocation: 'inlineScript'
         inlineScript: '
+          sudo az acr login -n kubeflowregistry && 
           cd code &&
           cd preprocess &&
           sudo docker build -t kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION . &&
