@@ -1,0 +1,5 @@
+{
+    "subscription_id": "1308a130-d549-44e1-ba66-ce8c487d76e3",
+    "resource_group": "kubeflow-mlops-rg",
+    "workspace_name": "kfaml"
+}

@@ -42,7 +42,7 @@ def run(raw_data):
     payload = {
         'time': inference_time.total_seconds(),
         'prediction': 'burrito' if o < 0.5 else 'tacos',
-        'scores': o
+        'scores': str(o)
     }
 
     print('Input ({}), Prediction ({})'.format(post['image'], payload))
