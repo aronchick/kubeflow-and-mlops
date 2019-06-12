@@ -1,7 +1,6 @@
 from __future__ import absolute_import, division, print_function
 import os
 import math
-import hmac
 import json
 import hashlib
 import argparse
@@ -132,7 +131,7 @@ def run(data_path, image_size=160, epochs=10, batch_size=32, learning_rate=0.000
 
 def generate_hash(file, key):
     print('Generating hash for {}'.format(file))
-    m = hmac.new(str.encode(key), digestmod=hashlib.sha3_256)
+    m = hmac.new(str.encode(key), digestmod=hashlib.sha256)
     BUF_SIZE = 65536
     with open(file, 'rb') as f:
         while True:
