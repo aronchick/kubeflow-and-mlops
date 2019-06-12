@@ -134,7 +134,7 @@ def generate_hash(file, key):
     print('Generating hash for {}'.format(file))
     m = hmac.new(str.encode(key), digestmod=hashlib.sha256)
     BUF_SIZE = 65536
-    with open(file, 'rb') as f:
+    with open(str(file), 'rb') as f:
         while True:
             data = f.read(BUF_SIZE)
             if not data: 
