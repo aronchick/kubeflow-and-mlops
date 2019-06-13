@@ -2,4 +2,4 @@
 
 # Kubeflow and Azure Pipelines
 
-More to come!
+Demo Day!
