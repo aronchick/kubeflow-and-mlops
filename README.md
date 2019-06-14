@@ -2,4 +2,4 @@
 
 # Kubeflow and Azure Pipelines
 
-Demo Day!
+Blob Weinershitzel!
