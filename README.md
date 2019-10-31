@@ -2,4 +2,4 @@
 
 # Kubeflow and Azure Pipelines
 
-Purple Cow
+Yellow Horse
