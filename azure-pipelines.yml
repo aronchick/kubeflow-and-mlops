@@ -18,11 +18,11 @@ stages:
         azureSubscription: 'Shared Data Platform - R+D (1308a130-d549-44e1-ba66-ce8c487d76e3)'
         scriptLocation: 'inlineScript'
         inlineScript: '
-          sudo az acr login -n kubeflowregistry && 
+          sudo az acr login -n kfamlacr && 
           cd code &&
           cd preprocess &&
-          sudo docker build -t kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION . &&
-          sudo docker push kubeflowregistry.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION '
+          sudo docker build -t kfamlacr.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION . &&
+          sudo docker push kfamlacr.azurecr.io/kubeflow/preprocess:$BUILD_SOURCEVERSION '
         displayName: 'Build & Push Preprocess Image'
 
     - task: AzureCLI@1
@@ -32,8 +32,8 @@ stages:
         inlineScript: '
           cd code &&
           cd training &&
-          sudo docker build -t kubeflowregistry.azurecr.io/kubeflow/training:$BUILD_SOURCEVERSION . &&
-          sudo docker push kubeflowregistry.azurecr.io/kubeflow/training:$BUILD_SOURCEVERSION '
+          sudo docker build -t kfamlacr.azurecr.io/kubeflow/training:$BUILD_SOURCEVERSION . &&
+          sudo docker push kfamlacr.azurecr.io/kubeflow/training:$BUILD_SOURCEVERSION '
         displayName: 'Build & Push Training Image'
 
     - task: AzureCLI@1
@@ -43,8 +43,8 @@ stages:
         inlineScript: '
           cd code &&
           cd register &&
-          sudo docker build -t kubeflowregistry.azurecr.io/kubeflow/register:$BUILD_SOURCEVERSION . &&
-          sudo docker push kubeflowregistry.azurecr.io/kubeflow/register:$BUILD_SOURCEVERSION '
+          sudo docker build -t kfamlacr.azurecr.io/kubeflow/register:$BUILD_SOURCEVERSION . &&
+          sudo docker push kfamlacr.azurecr.io/kubeflow/register:$BUILD_SOURCEVERSION '
         displayName: 'Build & Push Register Image'
 
 
