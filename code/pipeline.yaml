@@ -45,7 +45,7 @@ spec:
       - '{{inputs.parameters.data-download}}'
       command:
       - python
-      image: kubeflowregistry.azurecr.io/kubeflow/preprocess:{{inputs.parameters.imagetag}}
+      image: kfamlacr.azurecr.io/kubeflow/preprocess:{{inputs.parameters.imagetag}}
       imagePullPolicy: Always
       volumeMounts:
       - mountPath: /mnt/azure
@@ -87,7 +87,7 @@ spec:
       - '{{inputs.parameters.workspace}}'
       command:
       - python
-      image: kubeflowregistry.azurecr.io/kubeflow/register:{{inputs.parameters.imagetag}}
+      image: kfamlacr.azurecr.io/kubeflow/register:{{inputs.parameters.imagetag}}
       imagePullPolicy: Always
       volumeMounts:
       - mountPath: /mnt/azure
@@ -201,7 +201,7 @@ spec:
       - train.txt
       command:
       - python
-      image: kubeflowregistry.azurecr.io/kubeflow/training:{{inputs.parameters.imagetag}}
+      image: kfamlacr.azurecr.io/kubeflow/training:{{inputs.parameters.imagetag}}
       imagePullPolicy: Always
       volumeMounts:
       - mountPath: /mnt/azure

@@ -32,7 +32,7 @@ def tacosandburritos_train(
     # preprocess data
     operations['preprocess'] = dsl.ContainerOp(
         name='preprocess',
-        image='kubeflowregistry.azurecr.io/kubeflow/preprocess:' + str(imagetag),
+        image='kfamlacr.azurecr.io/kubeflow/preprocess:' + str(imagetag),
         command=['python'],
         arguments=[
             '/scripts/data.py',
@@ -47,7 +47,7 @@ def tacosandburritos_train(
     # train
     operations['training'] = dsl.ContainerOp(
         name='training',
-        image='kubeflowregistry.azurecr.io/kubeflow/training:' + str(imagetag),
+        image='kfamlacr.azurecr.io/kubeflow/training:' + str(imagetag),
         command=['python'],
         arguments=[
             '/scripts/train.py',
@@ -66,7 +66,7 @@ def tacosandburritos_train(
     # register model
     operations['register'] = dsl.ContainerOp(
         name='register',
-        image='kubeflowregistry.azurecr.io/kubeflow/register:' + str(imagetag),
+        image='kfamlacr.azurecr.io/kubeflow/register:' + str(imagetag),
         command=['python'],
         arguments=[
             '/scripts/register.py',
